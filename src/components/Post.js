@@ -3,25 +3,45 @@ import React from "react";
 // import Image from "../elements/Image";
 // import Text from "../elements/Text";
 
-import { Grid, Image, Text } from "../elements";
+import { Grid, Image, Text, Button } from "../elements";
+
+import { history } from "../redux/configureStore";
 
 const Post = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        <Grid is_flex>
-          <Image shape="circle" src={props.src} />
-          <Text bold>{props.user_info.user_name}</Text>
-          <Text>{props.insert_dt}</Text>
+        <Grid is_flex padding="16px">
+          <Grid is_flex width="auto">
+            <Image shape="circle" src={props.src} />
+            <Text bold>{props.user_info.user_name}</Text>
+          </Grid>
+          <Grid is_flex width="auto">
+            <Text>{props.insert_dt}</Text>
+            {props.is_me && (
+              <Button
+                margin="4px"
+                width="auto"
+                padding="4px"
+                _onClick={() => {
+                  history.push(`/write/${props.id}`);
+                }}
+              >
+                수정
+              </Button>
+            )}
+          </Grid>
         </Grid>
         <Grid padding="16px">
           <Text>{props.contents}</Text>
         </Grid>
         <Grid>
-          <Image shape="rectangle" src={props.src} />
+          <Image shape="rectangle" src={props.image_url} />
         </Grid>
         <Grid padding="16px">
-          <Text bold>댓글 {props.comment_cnt}개</Text>
+          <Text margin="0px" bold>
+            댓글 {props.comment_cnt}개
+          </Text>
         </Grid>
       </Grid>
     </React.Fragment>
@@ -39,6 +59,7 @@ Post.defaultProps = {
   contents: "강아지입니다~!",
   comment_cnt: 10,
   insert_dt: "2021-03-01 10:10:10",
+  is_me: false,
 };
 
 export default Post;
